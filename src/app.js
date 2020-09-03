@@ -58,7 +58,6 @@ server.post('/lists', authenticate, (req, res) => {
         .then(data => {
             return res.status(201).json(data);
         }).catch(err => {
-            console.log(err)
             return res.status(500).json(err);
         })
 });
@@ -146,9 +145,7 @@ server.post('/lists/:listId/tasks', authenticate, (req, res) => {
         } else {
             res.sendStatus(404);
         }
-        console.log(canEdit)
     }).catch((err) => {
-        console.log(err)
         return res.status(500).json(err);
     });
 })
@@ -180,7 +177,6 @@ server.patch('/lists/:listId/tasks/:taskId', authenticate, async (req, res) => {
         return res.sendStatus(404)
 
     } catch (error) {
-        console.log(error)
         return res.sendStatus(500);
     }
 })
@@ -202,7 +198,6 @@ server.get('/chartline/data', authenticate, async (req, res) => {
         data = await Promise.all(data);
         res.status(200).json(data);
     } catch (error) {
-        console.log(error);
         return res.status(500).json(error);
     }
 })
@@ -245,7 +240,6 @@ server.get('/chartPie/data', authenticate, async (req, res) => {
 
         return res.status(200).json(finalData);
     } catch (error) {
-        console.log(error);
         return res.status(500).json(error);
     }
 })
@@ -272,7 +266,6 @@ server.delete('/lists/:listId/tasks/:taskId', authenticate, async (req, res) => 
         return res.sendStatus(404)
 
     } catch (error) {
-        console.log(error)
         return res.sendStatus(500);
     }
 })
@@ -300,8 +293,6 @@ server.post('/users', (req, res) => {
             .header('x-access-token', authToken.accessToken)
             .send(newUser);
     }).catch(err => {
-        // TODO check if err are empty and update Code
-        console.log(err);
         return res.status(500).json(err)
     })
 })
