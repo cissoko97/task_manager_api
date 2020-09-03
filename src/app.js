@@ -211,9 +211,12 @@ server.get('/chartPie/data', authenticate, async (req, res) => {
     const _userId = req.user_id;
     let data = [];
     try {
+
+        // get all list for authenticate user
         let lists = await List.find({ _userId });
         data = lists.map(async (value) => {
             let tasks = [];
+            // for each items of list get her tasks
             tasks = await Task.find({ _listId: value._id });
             return tasks;
         })
@@ -224,6 +227,22 @@ server.get('/chartPie/data', authenticate, async (req, res) => {
         data.forEach(d => {
             finalData.push(...d);
         })
+
+        let initresult = [
+            { name: true, value: 0 },
+            { name: false, value: 0 }
+        ];
+
+        // reduce arrays and perform group by 
+        finalData = finalData.reduce((accumulateur, valeur) => {
+            let val = accumulateur.find(v => v.name === valeur.complete)
+            val.value += 1;
+
+            return accumulateur;
+        }, initresult);
+
+        finalData = finalData.map(val => ({ name: val.name ? 'complele' : 'uncomplete', value: val.value }));
+
         return res.status(200).json(finalData);
     } catch (error) {
         console.log(error);
