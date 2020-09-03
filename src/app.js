@@ -32,6 +32,16 @@ server.use((req, res, next) => {
  * Purpose: get all lists
  * 
 */
+server.get('/', (req, res) => {
+
+    return res.status(200).json({ message: 'you are welcome from my API!!' });
+});
+
+/**
+ * GET /lists
+ * Purpose: get all lists
+ * 
+*/
 server.get('/lists', authenticate, (req, res) => {
 
     // we want return an array of all the lists that belong to the authenticate user
